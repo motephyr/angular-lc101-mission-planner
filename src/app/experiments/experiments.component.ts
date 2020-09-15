@@ -7,9 +7,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExperimentsComponent implements OnInit {
 
-  constructor() { }
+  experiments: object[] = [
+    { name: "Mars soil sample" },
+    { name: "Plant growth in habitat" },
+    { name: "Human bone density" },
+  ];
+  memberBeingEdited: object = null;
 
-  ngOnInit() {
+  constructor() {}
+
+  ngOnInit() {}
+  add(name: string) {
+    if (!this.experiments.map((x) => x.name).includes(name)) {
+      this.experiments.push({ name });
+    }
+  }
+
+  remove(member: object) {
+    let index = this.experiments.indexOf(member);
+    this.experiments.splice(index, 1);
+  }
+  edit(member: object) {
+    this.memberBeingEdited = member;
+  }
+  save(name: string, member: object) {
+    member["name"] = name;
+    this.memberBeingEdited = null;
   }
 
 }
