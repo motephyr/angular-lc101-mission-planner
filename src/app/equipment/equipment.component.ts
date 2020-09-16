@@ -33,21 +33,35 @@ export class EquipmentComponent implements OnInit {
     }, 0);
     return this.cargoMass;
   }
-  isItemMassOver(item): boolean{
-    return (this.cargoHold.length === this.maxItems || this.cargoMass + item.mass > this.maximumAllowedMass)
+  isItemMassOver(item): boolean {
+    return (
+      this.cargoHold.length === this.maxItems ||
+      this.cargoMass + item.mass > this.maximumAllowedMass
+    );
   }
   addItem(equipment: object) {
     const allMass = this.calculateMass();
-    if (allMass + equipment.mass > this.maximumAllowedMass) {
+    if (
+      allMass + equipment.mass > this.maximumAllowedMass ||
+      this.cargoHold.includes(equipment)
+    ) {
       return false;
     } else {
       this.cargoHold.push(equipment);
-      this.calculateMass()
-      return true
+      this.calculateMass();
+      return true;
     }
   }
-  emptyHold(){
-    this.cargoHold = []
-    this.cargoMass = 0
+
+  removeItem(equipment: object) {
+    this.cargoHold = this.cargoHold.filter((x) => {
+      return x !== equipment;
+    });
+    this.calculateMass();
+  }
+
+  emptyHold() {
+    this.cargoHold = [];
+    this.cargoMass = 0;
   }
 }

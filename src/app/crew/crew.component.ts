@@ -18,7 +18,9 @@ export class CrewComponent implements OnInit {
     {name: "Guion Bluford", photo: 'https://handlers.education.launchcode.org/static/images/guion-bluford.jpg'},
     {name: "Kjell Lindgren", photo: 'https://handlers.education.launchcode.org/static/images/kjell-lindgren.jpg'},
     {name: "Jeanette Epps", photo: 'https://handlers.education.launchcode.org/static/images/jeanette-epps.jpg'}
-  ];
+  ].map((x) => {
+    return {...x, luckyValue: Math.random().toFixed(2)}
+  });
 
   constructor() { }
 
