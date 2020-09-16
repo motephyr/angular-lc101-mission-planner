@@ -1,31 +1,53 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-equipment',
-  templateUrl: './equipment.component.html',
-  styleUrls: ['./equipment.component.css']
+  selector: "app-equipment",
+  templateUrl: "./equipment.component.html",
+  styleUrls: ["./equipment.component.css"],
 })
 export class EquipmentComponent implements OnInit {
-   equipmentItems: object[] = [
-       {name: 'Duct Tape', mass: 0.5},
-       {name: 'Space Camera', mass: 20},
-       {name: 'Food', mass: 150},
-       {name: 'Oxygen Tanks', mass: 400},
-       {name: 'AE-35 Unit', mass: 5},
-       {name: 'ISS Supplies', mass: 800},
-       {name: 'Water', mass: 250},
-       {name: 'Satellite', mass: 1200},
-       {name: 'R2 Unit', mass: 32}
-   ];
-   cargoHold: object[] = [];
-   cargoMass: number = 0;
-   maximumAllowedMass: number = 2000;
-   maxItems: number = 10;
+  equipmentItems: object[] = [
+    { name: "Duct Tape", mass: 0.5 },
+    { name: "Space Camera", mass: 20 },
+    { name: "Food", mass: 150 },
+    { name: "Oxygen Tanks", mass: 400 },
+    { name: "AE-35 Unit", mass: 5 },
+    { name: "ISS Supplies", mass: 800 },
+    { name: "Water", mass: 250 },
+    { name: "Satellite", mass: 1200 },
+    { name: "R2 Unit", mass: 32 },
+  ];
+  cargoHold: object[] = [];
+  cargoMass: number = 0;
+  maximumAllowedMass: number = 2000;
+  maxItems: number = 10;
 
-   constructor() { }
+  constructor() {}
 
-   ngOnInit() { }
+  ngOnInit() {}
 
-   // Code your addItem function here:
-   
+  // Code your addItem function here:
+  calculateMass() {
+    this.cargoMass = this.cargoHold.reduce((sum, x) => {
+      return sum + x.mass;
+    }, 0);
+    return this.cargoMass;
+  }
+  isItemMassOver(item): boolean{
+    return (this.cargoHold.length === this.maxItems || this.cargoMass + item.mass > this.maximumAllowedMass)
+  }
+  addItem(equipment: object) {
+    const allMass = this.calculateMass();
+    if (allMass + equipment.mass > this.maximumAllowedMass) {
+      return false;
+    } else {
+      this.cargoHold.push(equipment);
+      this.calculateMass()
+      return true
+    }
+  }
+  emptyHold(){
+    this.cargoHold = []
+    this.cargoMass = 0
+  }
 }
